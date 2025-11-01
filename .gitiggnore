@@ -4,7 +4,7 @@ node_modules/
 # Build outputs (Tailwind, etc.)
 dist/
 build/
-assets/css/output.css
+
 
 # System / editor files
 .DS_Store
