@@ -1,139 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Place Order</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ["Poppins", "ui-sans-serif", "system-ui"],
-            },
-            colors: {
-              "brand-blue": "#365fb8",
-            },
-          },
-        },
-      };
-    </script>
-  </head>
-  <body class="bg-gray-50">
-    <header
-      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b-2 border-gray-200"
-    >
-      <div class="flex items-center justify-between py-4">
-        <div class="flex items-center gap-2">
-          <div
-            class="w-8 h-8 rounded-md bg-white flex items-center justify-center text-brand-blue border border-gray-200"
-          >
-            <svg
-              class="w-5 h-5 text-brand-blue"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 6m12-6 2 6m-8-6v6"
-              ></path>
-            </svg>
-          </div>
-          <a href="index.html"
-            ><span class="text-xl font-extrabold tracking-tight"
-              >ShopLess</span
-            ></a
-          >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Place Order</title>
+  <link rel="stylesheet" href="/assets/css/output.css" />
+</head>
+<body class="bg-gray-50">
+
+  <header class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b-2 border-gray-200">
+    <div class="flex items-center justify-between py-4">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-md bg-white flex items-center justify-center text-brand-blue border border-gray-200">
+          <svg class="w-5 h-5 text-brand-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 6m12-6 2 6m-8-6v6"></path>
+          </svg>
         </div>
+        <a href="index.html"><span class="text-xl font-extrabold tracking-tight">ShopLess</span></a>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <main class="p-4 max-w-7xl mx-auto">
-      <!-- Breadcrumb -->
-      <nav class="bg-gray-50 p-4 rounded-lg shadow-sm">
-        <ul class="flex items-center justify-center text-gray-700">
-          <li class="hover:text-gray-900 cursor-pointer">Cart</li>
-          <li class="mx-2 text-gray-400">›</li>
-          <li class="cursor-pointer font-semibold">Place Order</li>
-          <li class="mx-2 text-gray-400">›</li>
-          <li class="hover:text-gray-900 cursor-pointer">Pay</li>
-        </ul>
-      </nav>
+  <main class="p-4 max-w-7xl mx-auto">
 
-      <div class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- Left: Shipping Info -->
-        <section
-          class="bg-white/90 backdrop-blur-sm border border-gray-100 p-6 rounded-2xl shadow-lg"
-        >
-          <h2 class="text-xl font-semibold mb-4">Shipping Details</h2>
-          <form id="shippingForm" class="flex flex-col gap-4">
-            <input
-              type="text"
-              id="fullName"
-              placeholder="Full Name"
-              class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <input
-              type="text"
-              id="address"
-              placeholder="Address"
-              class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <input
-              type="text"
-              id="city"
-              placeholder="City"
-              class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <input
-              type="text"
-              id="postalCode"
-              placeholder="Postal Code"
-              class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <input
-              type="tel"
-              id="phone"
-              placeholder="Phone Number"
-              class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </form>
-        </section>
+    <!-- Breadcrumb -->
+    <nav class="bg-gray-50 p-4 rounded-lg shadow-sm mb-6">
+      <ul class="flex items-center justify-center text-gray-700">
+        <li class="hover:text-gray-900 cursor-pointer">Cart</li>
+        <li class="mx-2 text-gray-400">›</li>
+        <li class="cursor-pointer font-semibold">Place Order</li>
+        <li class="mx-2 text-gray-400">›</li>
+        <li class="hover:text-gray-900 cursor-pointer">Pay</li>
+      </ul>
+    </nav>
 
-        <!-- Right: Order Summary -->
-        <section
-          class="bg-white/90 backdrop-blur-sm border border-gray-100 p-6 rounded-2xl shadow-lg"
-        >
-          <h2 class="text-xl font-semibold mb-6">Order Summary</h2>
-          <div id="orderSummaryList" class="flex flex-col gap-4">
-            <!-- Items from localStorage will appear here -->
-          </div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-          <div
-            class="flex justify-between items-center text-lg font-semibold border-t border-gray-200 pt-4 mt-4"
-          >
-            <span>Total</span>
-            <span id="orderTotal">$0.00</span>
-          </div>
+      <!-- Left: Shipping Info -->
+      <section class="bg-white/90 backdrop-blur-sm border border-gray-100 p-6 rounded-2xl shadow-lg">
+        <h2 class="text-xl font-semibold mb-4">Shipping Details</h2>
+        <form id="shippingForm" class="flex flex-col gap-4" novalidate>
+          <input type="text" id="fullName" placeholder="Full Name" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+          <input type="email" id="email" placeholder="Email Address" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+          <input type="text" id="address" placeholder="Address" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+          <input type="text" id="city" placeholder="City" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+          <input type="text" id="postalCode" placeholder="Postal Code" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+          <input type="tel" id="phone" placeholder="Phone Number" maxlength="11" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+          <p id="formError" class="text-red-500 text-sm hidden"></p>
+        </form>
+      </section>
 
-          <button
-            class="w-full bg-brand-blue hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg mt-4 transition"
-            id="checkoutBtn"
-          >
-            Proceed to Payment
-          </button>
-        </section>
-      </div>
-    </main>
+      <!-- Right: Order Summary -->
+      <section class="bg-white/90 backdrop-blur-sm border border-gray-100 p-6 rounded-2xl shadow-lg">
+        <h2 class="text-xl font-semibold mb-6">Order Summary</h2>
+        <div id="orderSummaryList" class="flex flex-col gap-4"></div>
 
-    <script src="/assets/js/place_order.js"></script>
-  </body>
+        <div class="flex justify-between items-center text-lg font-semibold border-t border-gray-200 pt-4 mt-4">
+          <span>Total</span>
+          <span id="orderTotal">$0.00</span>
+        </div>
+
+        <button id="checkoutBtn" class="w-full bg-brand cursor-pointer hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded-lg mt-4 transition">
+          Proceed to Payment
+        </button>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="/assets/js/place_order.js"></script>
+</body>
 </html>

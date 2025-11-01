@@ -1,14 +1,13 @@
-// Get the container for products
+// Get elements
 const cartContainer = document.getElementById("productsContainer");
 const orderSummary = document.querySelector("div.bg-white.p-6.rounded-lg.shadow.h-fit");
 const checkoutBtn = orderSummary.querySelector("button span");
 
 // Get cart from localStorage
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
-// Ensure quantities are numeric
 cart = cart.map(p => ({ ...p, quantity: Number(p.quantity) || 1 }));
 
-// Function to render cart products
+// Render cart items
 function renderCart() {
   cartContainer.innerHTML = "";
 
@@ -24,12 +23,12 @@ function renderCart() {
 
     section.innerHTML = `
       <div class="w-full flex justify-center items-center h-full md:w-auto md:pr-4">
-        <input type="checkbox" class="cartCheckbox h-5 w-5 text-brand-blue border-gray-300 rounded focus:ring-brand-blue cursor-pointer bg-white/80 backdrop-blur-sm" checked data-index="${index}"/>
+        <input type="checkbox" class="cartCheckbox h-5 w-5 border-gray-300 rounded focus:ring-blue-500 cursor-pointer bg-white/80 backdrop-blur-sm" checked data-index="${index}"/>
       </div>
 
       <div class="flex flex-col md:flex-row gap-6 w-full">
         <div class="bg-gray-100 h-48 w-full md:w-1/2 rounded-xl overflow-hidden flex items-center justify-center">
-          <img src="${product.image}" alt="${product.name}" class="w-full h-full object-contain"/>
+          <img src="/${product.image}" alt="${product.name}" class="w-full h-full object-contain"/>
         </div>
 
         <div class="flex-1 flex flex-col justify-between">
@@ -38,8 +37,8 @@ function renderCart() {
             <p class="text-gray-600">${product.description || ""}</p>
           </div>
 
-          <div class="mt-6 flex items-center justify-between border-t pt-4">
-            <div class="text-xl font-semibold text-gray-900">$${product.price}</div>
+          <div class="mt-6 flex items-center justify-between border-t border-gray-300 pt-4">
+            <div class="text-2xl font-bold text-brand">$${product.price}</div>
 
             <div class="flex items-center gap-4 relative">
               <!-- Quantity Dropdown -->
@@ -83,13 +82,12 @@ function renderCart() {
   updateSummary();
 }
 
-// Update total items and price (only checked items)
+// Update summary totals
 function updateSummary() {
   let totalQty = 0;
   let totalPrice = 0;
 
-  // Use each checkbox's data-index attribute so DOM order vs cart array order can't cause bugs
-  document.querySelectorAll(".cartCheckbox").forEach((cb) => {
+  document.querySelectorAll(".cartCheckbox").forEach(cb => {
     const idx = parseInt(cb.dataset.index, 10);
     if (!isNaN(idx) && cb.checked && cart[idx]) {
       const qty = Number(cart[idx].quantity) || 0;
@@ -99,20 +97,19 @@ function updateSummary() {
     }
   });
 
-  // The span inside the checkout button shows the numeric count
   checkoutBtn.textContent = totalQty;
   orderSummary.querySelector("h3 span").textContent = `$${totalPrice.toFixed(2)}`;
 }
 
-// Quantity Dropdown
+// Setup quantity dropdown buttons
 function setupQuantityButtons() {
-  document.querySelectorAll(".qtyButton").forEach((button) => {
+  document.querySelectorAll(".qtyButton").forEach(button => {
     const parent = button.closest(".relative");
     const menu = parent.querySelector(".qtyMenu");
     const arrow = parent.querySelector(".arrowIcon");
     const qtyText = parent.querySelector(".qtySelected");
 
-    button.addEventListener("click", (e) => {
+    button.addEventListener("click", e => {
       e.stopPropagation();
       menu.classList.toggle("hidden");
       menu.classList.toggle("opacity-0");
@@ -120,14 +117,13 @@ function setupQuantityButtons() {
       arrow.classList.toggle("rotate-180");
     });
 
-    menu.querySelectorAll("button").forEach((item) => {
+    menu.querySelectorAll("button").forEach(item => {
       item.addEventListener("click", () => {
         const newQty = parseInt(item.dataset.value, 10) || 1;
         qtyText.textContent = "Qty: " + newQty;
         menu.classList.add("hidden", "opacity-0", "scale-95");
         arrow.classList.remove("rotate-180");
 
-        // Find the product index for this row reliably from the DOM (closest section -> deleteBtn)
         const section = button.closest("section");
         const deleteBtn = section ? section.querySelector(".deleteBtn") : null;
         const productIndex = deleteBtn ? parseInt(deleteBtn.dataset.index, 10) : NaN;
@@ -142,29 +138,26 @@ function setupQuantityButtons() {
   });
 
   document.addEventListener("click", () => {
-    document.querySelectorAll(".qtyMenu").forEach((menu) => {
-      menu.classList.add("hidden", "opacity-0", "scale-95");
-    });
-    document.querySelectorAll(".arrowIcon").forEach((icon) => {
-      icon.classList.remove("rotate-180");
-    });
+    document.querySelectorAll(".qtyMenu").forEach(menu => menu.classList.add("hidden", "opacity-0", "scale-95"));
+    document.querySelectorAll(".arrowIcon").forEach(icon => icon.classList.remove("rotate-180"));
   });
 }
 
-// Delete button
+// Setup delete buttons
 function setupDeleteButtons() {
-  document.querySelectorAll(".deleteBtn").forEach((btn) => {
+  document.querySelectorAll(".deleteBtn").forEach(btn => {
     btn.addEventListener("click", () => {
       const idx = parseInt(btn.dataset.index, 10);
-      if (isNaN(idx)) return;
-      cart.splice(idx, 1);
-      localStorage.setItem("cart", JSON.stringify(cart));
-      renderCart();
+      if (!isNaN(idx)) {
+        cart.splice(idx, 1);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        renderCart();
+      }
     });
   });
 }
 
-// Checkbox events
+// Setup checkboxes
 function setupCheckboxes() {
   document.querySelectorAll(".cartCheckbox").forEach(cb => {
     cb.addEventListener("change", updateSummary);

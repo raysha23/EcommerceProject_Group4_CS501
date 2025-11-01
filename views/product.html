@@ -4,28 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Product</title>
-    <!-- Google font (optional) -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      // optional: small theme extension for nicer blue and rounded chips
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ["Poppins", "ui-sans-serif", "system-ui"],
-            },
-            colors: {
-              "brand-blue": "#365fb8",
-            },
-          },
-        },
-      };
-    </script>
+    <link rel="stylesheet" href="/assets/css/output.css">
   </head>
   <body class="bg-white text-gray-800 antialiased mt-24">
     <header
@@ -67,7 +46,6 @@
         <div class="relative flex items-center gap-4">
           <a
             href="cart.html"
-            target="_blank"
             class="p-2 rounded-full hover:bg-gray-100 focus:ring-2 focus:ring-gray-300 inline-flex items-center justify-center"
             aria-label="Cart"
           >
@@ -86,7 +64,7 @@
             </svg>
             <span
               id="cartCount"
-              class="absolute -top-1 -right-1 bg-brand-blue text-white text-xs w-5 h-5 hidden rounded-full flex items-center justify-center"
+              class="absolute bg-brand -top-1 -right-1 bg-brand-blue text-white text-xs w-5 h-5 hidden rounded-full flex items-center justify-center"
               >0</span
             >
           </a>
@@ -125,7 +103,7 @@
           </p>
 
           <button
-            class="addToCartSlide  transition-all duration-300 relative overflow-hidden w-full sm:width-full bg-brand-blue text-white px-6 sm:px-8 py-3 text-2xl sm:text-xl lg:text-3xl font-semibold rounded-full shadow-md transition-all duration-300"
+            class="addToCartSlide bg-brand cursor-pointer transition-all duration-300 relative overflow-hidden w-full sm:width-full bg-brand-blue text-white px-6 sm:px-8 py-3 text-2xl sm:text-xl lg:text-3xl font-semibold rounded-full shadow-md"
           >
             <span class="addText">Add to Cart</span>
             <span

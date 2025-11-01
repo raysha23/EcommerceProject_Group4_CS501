@@ -61,9 +61,9 @@ function renderProducts(filteredProducts) {
         </div>
       </div>
       <div class="mt-4 flex-1 flex flex-col">
-        <p class="text-lg font-semibold leading-tight line-clamp-2">${product.name}</p>
+        <p class="text-lg font-semibold leading-tight lg:line-clamp-1  line-clamp-2">${product.name}</p>
         <p class="text-lg font-extrabold mt-1">$${product.price.toFixed(2)}</p>
-        <button class="addToCartSlide mt-4 text-white px-6 py-2 rounded-full cursor-pointer font-medium transition-all bg-blue-700 hover:bg-blue-800 duration-300 relative overflow-hidden">
+        <button class="addToCartSlide mt-4 text-white px-6 py-2 rounded-full cursor-pointer font-medium transition-all bg-brand  duration-300 relative overflow-hidden">
           <span class="addText">Add to Cart</span>
           <span class="checkIcon absolute inset-0 flex items-center justify-center opacity-0 translate-y-2 transition-all duration-300">✅Added</span>
         </button>

@@ -33,7 +33,7 @@ function renderOrderSummary() {
 
     div.innerHTML = `
       <div class="bg-gray-100 h-32 w-full md:w-1/4 rounded-xl overflow-hidden flex items-center justify-center">
-        <img src="${item.image}" alt="${
+        <img src="/${item.image}" alt="${
       item.name
     }" class="w-full h-full object-contain"/>
       </div>
