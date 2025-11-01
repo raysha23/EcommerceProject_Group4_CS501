@@ -16,7 +16,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx @tailwindcss/cli -i ./Ecommerce-Website/assets/css/input.css -o ./Ecommerce-Website/assets/css/output.css --watch"
+    "dev": "npx tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --watch"
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.1.16",

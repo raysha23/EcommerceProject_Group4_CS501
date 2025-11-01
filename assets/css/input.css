@@ -1,2 +1,14 @@
 @import "tailwindcss";
 
+
+@layer components {
+  .chip {
+    @apply bg-black/5;
+  }
+
+  .focus-ring:focus {
+    @apply outline outline-[3px] outline-blue-400/30 outline-offset-2;
+  }
+
+}
+

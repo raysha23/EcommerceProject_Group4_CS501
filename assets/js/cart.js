@@ -5,6 +5,8 @@ const checkoutBtn = orderSummary.querySelector("button span");
 
 // Get cart from localStorage
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
+// Ensure quantities are numeric
+cart = cart.map(p => ({ ...p, quantity: Number(p.quantity) || 1 }));
 
 // Function to render cart products
 function renderCart() {
@@ -86,20 +88,25 @@ function updateSummary() {
   let totalQty = 0;
   let totalPrice = 0;
 
-  document.querySelectorAll(".cartCheckbox").forEach((cb, idx) => {
-    if (cb.checked) {
-      totalQty += cart[idx].quantity;
-      totalPrice += cart[idx].price * cart[idx].quantity;
+  // Use each checkbox's data-index attribute so DOM order vs cart array order can't cause bugs
+  document.querySelectorAll(".cartCheckbox").forEach((cb) => {
+    const idx = parseInt(cb.dataset.index, 10);
+    if (!isNaN(idx) && cb.checked && cart[idx]) {
+      const qty = Number(cart[idx].quantity) || 0;
+      const price = Number(cart[idx].price) || 0;
+      totalQty += qty;
+      totalPrice += price * qty;
     }
   });
 
-  checkoutBtn.textContent = `${totalQty} items`;
+  // The span inside the checkout button shows the numeric count
+  checkoutBtn.textContent = totalQty;
   orderSummary.querySelector("h3 span").textContent = `$${totalPrice.toFixed(2)}`;
 }
 
 // Quantity Dropdown
 function setupQuantityButtons() {
-  document.querySelectorAll(".qtyButton").forEach((button, idx) => {
+  document.querySelectorAll(".qtyButton").forEach((button) => {
     const parent = button.closest(".relative");
     const menu = parent.querySelector(".qtyMenu");
     const arrow = parent.querySelector(".arrowIcon");
@@ -115,15 +122,21 @@ function setupQuantityButtons() {
 
     menu.querySelectorAll("button").forEach((item) => {
       item.addEventListener("click", () => {
-        const newQty = parseInt(item.dataset.value);
+        const newQty = parseInt(item.dataset.value, 10) || 1;
         qtyText.textContent = "Qty: " + newQty;
         menu.classList.add("hidden", "opacity-0", "scale-95");
         arrow.classList.remove("rotate-180");
 
-        const productIndex = [...document.querySelectorAll(".deleteBtn")][idx].dataset.index;
-        cart[productIndex].quantity = newQty;
-        localStorage.setItem("cart", JSON.stringify(cart));
-        updateSummary();
+        // Find the product index for this row reliably from the DOM (closest section -> deleteBtn)
+        const section = button.closest("section");
+        const deleteBtn = section ? section.querySelector(".deleteBtn") : null;
+        const productIndex = deleteBtn ? parseInt(deleteBtn.dataset.index, 10) : NaN;
+
+        if (!isNaN(productIndex) && cart[productIndex]) {
+          cart[productIndex].quantity = newQty;
+          localStorage.setItem("cart", JSON.stringify(cart));
+          updateSummary();
+        }
       });
     });
   });
@@ -142,7 +155,8 @@ function setupQuantityButtons() {
 function setupDeleteButtons() {
   document.querySelectorAll(".deleteBtn").forEach((btn) => {
     btn.addEventListener("click", () => {
-      const idx = btn.dataset.index;
+      const idx = parseInt(btn.dataset.index, 10);
+      if (isNaN(idx)) return;
       cart.splice(idx, 1);
       localStorage.setItem("cart", JSON.stringify(cart));
       renderCart();

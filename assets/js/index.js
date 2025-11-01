@@ -1,8 +1,10 @@
-import { dresses, shoes } from "./productsData.js";
+import { dresses, shoes } from "../data/productsData.js";
 
 const productsContainer = document.getElementById("productsContainer");
 const cartCount = document.getElementById("cartCount");
-const searchInput = document.querySelector('input[aria-label="Search products"]');
+const searchInput = document.querySelector(
+  'input[aria-label="Search products"]'
+);
 
 // Get cart from localStorage or empty array
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -34,10 +36,11 @@ function goToProductPage(product) {
   const params = new URLSearchParams({
     name: product.name,
     price: product.price,
-    image: product.image,
-    description: product.description 
+    image: `../${product.image}`,
+    description: product.description,
   });
-  window.location.href = `html/product.html?${params.toString()}`;
+  // ../assets/images/Dress-1.jpg
+  window.location.href = `../views/product.html?${params.toString()}`;
 }
 
 // Function to render products
@@ -53,23 +56,27 @@ function renderProducts(filteredProducts) {
 
   filteredProducts.forEach((product) => {
     if (!product.quantity) product.quantity = 1;
-
     const article = document.createElement("article");
+
     article.className =
-      "border rounded-md p-4 flex flex-col h-full hover:shadow-md transition-shadow duration-300";
+      "rounded-md p-4 flex border border-gray-300 flex-col h-full hover:shadow-md  transition-shadow duration-300";
 
     article.innerHTML = `
       <div class="relative">
-        <div class="aspect-[4/3] bg-white rounded-md border overflow-hidden flex items-center justify-center hover:shadow-lg transition-shadow duration-300">
-          <img src="${product.image}" alt="${product.name}" class="object-contain h-full w-full cursor-pointer" />
+        <div class="aspect-[4/3] bg-white rounded-md border border-gray-300 overflow-hidden flex items-center justify-center hover:shadow-lg transition-shadow duration-300">
+          <img src="${product.image}" alt="${
+      product.name
+    }" class="object-contain h-full w-full cursor-pointer" />
         </div>
       </div>
       <div class="mt-4 flex-1 flex flex-col">
-        <p class="text-lg font-semibold leading-tight line-clamp-2">${product.name}</p>
+        <p class="text-lg font-semibold leading-tight line-clamp-2">${
+          product.name
+        }</p>
         <p class="text-lg font-extrabold mt-1">$${product.price.toFixed(2)}</p>
-        <button class="addToCartSlide mt-4 bg-brand-blue text-white px-6 py-2 rounded-full font-medium transition-all duration-300 relative overflow-hidden">
+       <button class="addToCartSlide mt-4 text-white px-6 py-2 rounded-full bg-blue-700 cursor-pointer font-medium transition-all duration-300 relative overflow-hidden" >
           <span class="addText">Add to Cart</span>
-          <span class="checkIcon absolute inset-0 flex items-center justify-center opacity-0 translate-y-2 transition-all duration-300">✅Added</span>
+          <span class="checkIcon absolute inset-0 flex items-center justify-center opacity-0 translate-y-2 transition-all duration-300" >✅Added</span>
         </button>
       </div>
     `;
@@ -88,7 +95,7 @@ function renderProducts(filteredProducts) {
       } else {
         cart.push({ ...product, quantity: 1 });
       }
-
+      
       saveCart();
       updateCartCount();
 
@@ -116,20 +123,20 @@ function applyFilters() {
 
   // Filter by category
   if (currentCategory !== "all") {
-    filtered = filtered.filter(p => p.category === currentCategory);
+    filtered = filtered.filter((p) => p.category === currentCategory);
   }
 
   // Filter by search term
   if (currentSearch.trim() !== "") {
     const term = currentSearch.toLowerCase();
-    filtered = filtered.filter(p => p.name.toLowerCase().includes(term));
+    filtered = filtered.filter((p) => p.name.toLowerCase().includes(term));
   }
 
   renderProducts(filtered);
 }
 
 // Category buttons
-document.querySelectorAll("button[data-category]").forEach(btn => {
+document.querySelectorAll("button[data-category]").forEach((btn) => {
   btn.addEventListener("click", () => {
     currentCategory = btn.dataset.category;
     applyFilters();

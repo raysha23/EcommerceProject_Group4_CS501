@@ -4,7 +4,7 @@ export const dresses = [
     id: 1,
     name: "Floral Print Spaghetti Strap Dress",
     price: 118.99,
-    image: "images/Dress-1.jpg",
+    image: "assets/images/Dress-1.jpg",
     quantity: 0,
     category: "clothes",
     description: "Lightweight summer dress with delicate floral prints."
