@@ -28,7 +28,7 @@ function renderCart() {
 
       <div class="flex flex-col md:flex-row gap-6 w-full">
         <div class="bg-gray-100 h-48 w-full md:w-1/2 rounded-xl overflow-hidden flex items-center justify-center">
-          <img src="/${product.image}" alt="${product.name}" class="w-full h-full object-contain"/>
+          <img src="../${product.image}" alt="${product.name}" class="w-full h-full object-contain"/>
         </div>
 
         <div class="flex-1 flex flex-col justify-between">

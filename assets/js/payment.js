@@ -16,7 +16,7 @@ function renderCart() {
     div.className = "flex items-center justify-between gap-4 p-3 border border-gray-300 rounded-lg";
     div.innerHTML = `
       <div class="flex items-center gap-4">
-        <img src="/${item.image}" alt="${item.name}" class="w-16 h-16 object-contain rounded-lg border border-gray-500"/>
+        <img src="../${item.image}" alt="${item.name}" class="w-16 h-16 object-contain rounded-lg border border-gray-500"/>
         <div>
           <p class="font-medium">${item.name}</p>
           <p class="text-gray-500 text-sm">Qty: ${item.quantity}</p>

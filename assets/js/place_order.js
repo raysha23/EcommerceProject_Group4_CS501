@@ -44,7 +44,7 @@ function renderOrderSummary() {
 
     itemDiv.innerHTML = `
       <div class="flex items-center gap-4">
-        <img src="/${item.image}" alt="${item.name}" class="w-16 h-16 object-contain rounded-lg" />
+        <img src="../${item.image}" alt="${item.name}" class="w-16 h-16 object-contain rounded-lg" />
         <div>
           <p class="font-medium">${item.name}</p>
           <p class="text-gray-500 text-sm">Qty: ${item.quantity}</p>
