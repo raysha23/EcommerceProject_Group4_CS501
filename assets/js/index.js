@@ -2,9 +2,7 @@ import { dresses, shoes } from "../data/productsData.js";
 
 const productsContainer = document.getElementById("productsContainer");
 const cartCount = document.getElementById("cartCount");
-const searchInput = document.querySelector(
-  'input[aria-label="Search products"]'
-);
+const searchInput = document.querySelector('input[aria-label="Search products"]');
 
 // Get cart from localStorage or empty array
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -20,70 +18,61 @@ function updateCartCount() {
     cartCount.classList.add("hidden");
   }
 }
-
 updateCartCount();
 
 // Merge all products
 const allProducts = [...dresses, ...shoes];
 
-// Function to save cart
+// Save cart
 function saveCart() {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-// Function to navigate to product page with query params
+// Navigate to product page
 function goToProductPage(product) {
   const params = new URLSearchParams({
     name: product.name,
     price: product.price,
-    image: `../${product.image}`,
+    image: `/${product.image}`,
     description: product.description,
   });
-  // ../assets/images/Dress-1.jpg
   window.location.href = `../views/product.html?${params.toString()}`;
 }
 
-// Function to render products
+// Render products
 function renderProducts(filteredProducts) {
   productsContainer.innerHTML = "";
 
   if (filteredProducts.length === 0) {
-    productsContainer.innerHTML = `
-      <p class="col-span-full text-center text-gray-500 mt-4">Nothing found.</p>
-    `;
+    productsContainer.innerHTML = `<p class="col-span-full text-center text-gray-500 mt-4">Nothing found.</p>`;
     return;
   }
 
   filteredProducts.forEach((product) => {
     if (!product.quantity) product.quantity = 1;
-    const article = document.createElement("article");
 
-    article.className =
-      "rounded-md p-4 flex border border-gray-300 flex-col h-full hover:shadow-md  transition-shadow duration-300";
+    const article = document.createElement("article");
+    article.className = "rounded-md p-4 flex border border-gray-300 flex-col h-full hover:shadow-md transition-shadow duration-300";
 
     article.innerHTML = `
       <div class="relative">
         <div class="aspect-[4/3] bg-white rounded-md border border-gray-300 overflow-hidden flex items-center justify-center hover:shadow-lg transition-shadow duration-300">
-          <img src="${product.image}" alt="${
-      product.name
-    }" class="object-contain h-full w-full cursor-pointer" />
+          <img src="${product.image}" alt="${product.name}" class="object-contain h-full w-full cursor-pointer" />
         </div>
       </div>
       <div class="mt-4 flex-1 flex flex-col">
-        <p class="text-lg font-semibold leading-tight line-clamp-2">${
-          product.name
-        }</p>
+        <p class="text-lg font-semibold leading-tight line-clamp-2">${product.name}</p>
         <p class="text-lg font-extrabold mt-1">$${product.price.toFixed(2)}</p>
-       <button class="addToCartSlide mt-4 text-white px-6 py-2 rounded-full bg-blue-700 cursor-pointer font-medium transition-all duration-300 relative overflow-hidden" >
+        <button class="addToCartSlide mt-4 text-white px-6 py-2 rounded-full cursor-pointer font-medium transition-all bg-blue-700 hover:bg-blue-800 duration-300 relative overflow-hidden">
           <span class="addText">Add to Cart</span>
-          <span class="checkIcon absolute inset-0 flex items-center justify-center opacity-0 translate-y-2 transition-all duration-300" >✅Added</span>
+          <span class="checkIcon absolute inset-0 flex items-center justify-center opacity-0 translate-y-2 transition-all duration-300">✅Added</span>
         </button>
       </div>
     `;
 
     productsContainer.appendChild(article);
 
-    // Cart button functionality
+    // Add to cart functionality
     const btn = article.querySelector(".addToCartSlide");
     const text = btn.querySelector(".addText");
     const check = btn.querySelector(".checkIcon");
@@ -95,7 +84,7 @@ function renderProducts(filteredProducts) {
       } else {
         cart.push({ ...product, quantity: 1 });
       }
-      
+
       saveCart();
       updateCartCount();
 
@@ -111,22 +100,20 @@ function renderProducts(filteredProducts) {
       }, 1200);
     });
 
-    // Click on product image to go to product page
+    // Click on image to go to product page
     const img = article.querySelector("img");
     img.addEventListener("click", () => goToProductPage(product));
   });
 }
 
-// Apply both category and search filters
+// Filters
 function applyFilters() {
   let filtered = allProducts;
 
-  // Filter by category
   if (currentCategory !== "all") {
     filtered = filtered.filter((p) => p.category === currentCategory);
   }
 
-  // Filter by search term
   if (currentSearch.trim() !== "") {
     const term = currentSearch.toLowerCase();
     filtered = filtered.filter((p) => p.name.toLowerCase().includes(term));
@@ -149,5 +136,5 @@ searchInput.addEventListener("input", (e) => {
   applyFilters();
 });
 
-// Initial render: show all products
+// Initial render
 applyFilters();
