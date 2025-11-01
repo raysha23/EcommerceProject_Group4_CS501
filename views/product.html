@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product</title>
+    <!-- Google font (optional) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // optional: small theme extension for nicer blue and rounded chips
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Poppins", "ui-sans-serif", "system-ui"],
+            },
+            colors: {
+              "brand-blue": "#365fb8",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-white text-gray-800 antialiased mt-24">
+    <header
+      class="fixed top-0 left-0 w-full z-[1000] mb-4 border-b-2 border-gray-200 bg-white"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between py-4"
+      >
+        <!-- left: logo + categories (same as before) -->
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <div
+              class="w-8 h-8 rounded-md bg-white flex items-center justify-center text-brand-blue border border-gray-200"
+            >
+              <svg
+                class="w-5 h-5 text-brand-blue"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 6m12-6 2 6m-8-6v6"
+                ></path>
+              </svg>
+            </div>
+            <a href="index.html"
+              ><span class="text-xl font-extrabold tracking-tight"
+                >ShopLess</span
+              ></a
+            >
+          </div>
+        </div>
+
+
+        <!-- CART ICON -->
+        <div class="relative flex items-center gap-4">
+          <a
+            href="cart.html"
+            target="_blank"
+            class="p-2 rounded-full hover:bg-gray-100 focus:ring-2 focus:ring-gray-300 inline-flex items-center justify-center"
+            aria-label="Cart"
+          >
+            <svg
+              class="w-6 h-6 text-gray-800"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 6m12-6 2 6m-8-6v6"
+              ></path>
+            </svg>
+            <span
+              id="cartCount"
+              class="absolute -top-1 -right-1 bg-brand-blue text-white text-xs w-5 h-5 hidden rounded-full flex items-center justify-center"
+              >0</span
+            >
+          </a>
+        </div>
+      </div>
+    </header>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div
+        class="mt-4 grid grid-cols-1 sm:grid-cols-[1fr_300px] lg:grid-cols-[1fr_550px] gap-x-6 items-start"
+      >
+        <!-- Left: Image -->
+        <div class="flex justify-center">
+          <img
+            src="images/Dress-1.jpg"
+            alt="Floral Print Dress"
+            class="w-full max-w-sm sm:max-w-md h-auto object-contain rounded-md"
+          />
+        </div>
+
+        <!-- Right: Details -->
+        <div class="mt-4 space-y-4 sm:space-y-5 lg:space-y-7">
+          <h1
+            class="text-xl sm:text-xl lg:text-3xl font-semibold leading-snug sm:leading-tight"
+          >
+            Floral Print Spaghetti Strap Dress, Pastel Dresses
+          </h1>
+
+          <p class="text-gray-600 text-sm sm:text-sm lg:text-lg max-w-prose">
+            A charming pastel floral dress perfect for spring and summer events.
+          </p>
+
+          <p
+            class="font-extrabold text-2xl sm:text-3xl lg:text-4xl text-brand-blue"
+          >
+            $400.00
+          </p>
+
+          <button
+            class="addToCartSlide transition-all duration-300 relative overflow-hidden w-full sm:width-full bg-brand-blue text-white px-6 sm:px-8 py-3 text-2xl sm:text-xl lg:text-3xl font-semibold rounded-full shadow-md transition-all duration-300"
+          >
+            <span class="addText">Add to Cart</span>
+            <span
+              class="checkIcon absolute inset-0 flex items-center justify-center opacity-0 translate-y-2 transition-all duration-300"
+              >✅Added</span
+            >
+          </button>
+        </div>
+      </div>
+    </main>
+    <div class="h-16"></div>
+    <footer
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-sm text-gray-500 pb-8"
+    >
+      <div class="border-t pt-6 mt-6">
+        ShopLess • Built with Tailwind <br />Created by:<br />Raymund
+        Sismundo<br />Janet Alfanta Sismundo<br />Clifford Caballero
+      </div>
+    </footer>
+    <script src="/js/product.js"></script>
+  </body>
+</html>

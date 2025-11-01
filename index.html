@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ShopLess</title>
+
+    <!-- ✅ Tailwind (compiled locally) -->
+    <link rel="stylesheet" href="./assets/css/output.css" />
+
+    <!-- ✅ Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- ✅ Custom styles (optional small tweaks) -->
+    <style>
+      .chip {
+        background: rgba(0, 0, 0, 0.05);
+      }
+      .focus-ring:focus {
+        outline: 3px solid rgba(59, 130, 246, 0.3);
+        outline-offset: 2px;
+      }
+    </style>
+  </head>
+
+  <body class="bg-white text-gray-800 antialiased mt-24 font-sans">
+    <!-- Header / Navbar -->
+    <header
+      class="fixed top-0 left-0 w-full z-[1000] mb-4 border-b-2 border-gray-200 bg-white"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between py-4"
+      >
+        <!-- Left: Logo -->
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <div
+              class="w-8 h-8 rounded-md bg-white flex items-center justify-center text-brand-blue border border-gray-200"
+            >
+              <svg
+                class="w-5 h-5 text-brand-blue"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 6m12-6 2 6m-8-6v6"
+                ></path>
+              </svg>
+            </div>
+            <a href="index.html">
+              <span class="text-xl font-extrabold tracking-tight">ShopLess</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="hidden md:flex items-center gap-6 ml-6 text-sm">
+          <div class="relative group">
+            <button
+              class="flex items-center gap-1 hover:text-brand-blue focus-ring px-2 py-1 transition-colors duration-200"
+            >
+              Categories
+              <svg
+                class="w-4 h-4 transform transition-transform duration-300 group-hover:rotate-180"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  d="M5.23 7.21L10 11.98l4.77-4.77L16 8.44 10 14.44 4 8.44z"
+                />
+              </svg>
+            </button>
+
+            <div
+              class="absolute left-0 mt-2 w-40 bg-white shadow-lg rounded-md opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 pointer-events-none group-hover:pointer-events-auto transition-all duration-300 z-10"
+            >
+              <div
+                class="absolute -top-3 left-0 right-0 h-3 bg-transparent"
+              ></div>
+              <a
+                href="index.html"
+                class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-gray-700"
+                >All</a
+              >
+              <button
+                class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-gray-700"
+                data-category="shoes"
+              >
+                Shoes
+              </button>
+              <button
+                class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-gray-700"
+                data-category="clothes"
+              >
+                Clothes
+              </button>
+            </div>
+          </div>
+        </nav>
+
+        <!-- Search Bar -->
+        <div class="flex-1 flex justify-center px-4">
+          <div class="w-full max-w-xl">
+            <div class="relative hidden sm:block">
+              <input
+                aria-label="Search products"
+                type="search"
+                placeholder="Search"
+                class="w-full border rounded-full py-2 px-4 pl-10 text-sm focus-ring"
+              />
+              <svg
+                class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cart Icon -->
+        <div class="relative flex items-center gap-4">
+          <a
+            href="html/cart.html"
+            class="p-2 rounded-full hover:bg-gray-100 focus:ring-2 focus:ring-gray-300 inline-flex items-center justify-center"
+            aria-label="Cart"
+          >
+            <svg
+              class="w-6 h-6 text-gray-800"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 6m12-6 2 6m-8-6v6"
+              ></path>
+            </svg>
+            <span
+              id="cartCount"
+              class="absolute -top-1 -right-1 bg-brand-blue text-white text-xs w-5 h-5 hidden rounded-full  items-center justify-center"
+              >0</span
+            >
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section class="mt-7">
+        <h2 class="text-2xl font-extrabold tracking-tight">
+          Best Style For You!!
+        </h2>
+
+        <div
+          id="productsContainer"
+          class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6"
+        ></div>
+      </section>
+      <div class="h-16"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-sm text-gray-500 pb-8"
+    >
+      <div class="border-t pt-6 mt-6">
+        ShopLess • Built with Tailwind <br />
+        Created by: <br />
+        Raymund Sismundo <br />
+        Janet Alfanta Sismundo <br />
+        Clifford Caballero
+      </div>
+    </footer>
+
+    <!-- JS -->
+    <script type="module" src="js/index.js"></script>
+  </body>
+</html>

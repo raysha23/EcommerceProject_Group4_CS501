@@ -1,0 +1,32 @@
+# Node dependencies
+node_modules/
+
+# Build outputs (Tailwind, etc.)
+dist/
+build/
+assets/css/output.css
+
+# System / editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Environment or config files
+.env
+.env.local
+.env.production
+.env.development
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Temporary files
+*.tmp
+*.temp
+
+# OS junk
+*.log

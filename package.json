@@ -1,0 +1,25 @@
+{
+  "name": "ecommerce",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/raysha23/PROEL01-Ecommerce-Website-#readme",
+  "bugs": {
+    "url": "https://github.com/raysha23/PROEL01-Ecommerce-Website-/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raysha23/PROEL01-Ecommerce-Website-.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx @tailwindcss/cli -i ./Ecommerce-Website/assets/css/input.css -o ./Ecommerce-Website/assets/css/output.css --watch"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.16",
+    "tailwindcss": "^4.1.16"
+  }
+}
