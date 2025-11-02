@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Product</title>
-    <link rel="stylesheet" href="../assets/css/output.css">
+    <link rel="stylesheet" href="../assets/css/output.css" />
   </head>
   <body class="bg-white text-gray-800 antialiased mt-24">
     <header
@@ -40,7 +40,6 @@
             >
           </div>
         </div>
-
 
         <!-- CART ICON -->
         <div class="relative flex items-center gap-4">
@@ -96,20 +95,27 @@
             A charming pastel floral dress perfect for spring and summer events.
           </p>
 
-          <p
-            class="font-extrabold text-2xl sm:text-3xl lg:text-4xl text-brand-blue"
-          >
+          <p class="font-extrabold text-2xl sm:text-3xl lg:text-4xl text-brand">
             $400.00
           </p>
 
+          <!-- Add to Cart -->
           <button
-            class="addToCartSlide bg-brand cursor-pointer transition-all duration-300 relative overflow-hidden w-full sm:width-full bg-brand-blue text-white px-6 sm:px-8 py-3 text-2xl sm:text-xl lg:text-3xl font-semibold rounded-full shadow-md"
+            class="addToCartSlide bg-brand cursor-pointer transition-all duration-300 relative overflow-hidden w-full bg-brand-blue hover:bg-blue-500 text-white px-6 sm:px-8 py-3 text-2xl sm:text-xl lg:text-3xl font-semibold rounded-full shadow-md"
           >
             <span class="addText">Add to Cart</span>
             <span
               class="checkIcon absolute inset-0 flex items-center justify-center opacity-0 translate-y-2 transition-all duration-300"
               >✅Added</span
             >
+          </button>
+
+          <!-- Buy Now -->
+          <button
+            id="buyNowBtn"
+            class="bg-brand cursor-pointer transition-all duration-300 relative overflow-hidden w-full bg-brand-blue hover:bg-blue-500 text-white px-6 sm:px-8 py-3 text-2xl sm:text-xl lg:text-3xl font-semibold rounded-full shadow-md"
+          >
+            🛒 Buy Now
           </button>
         </div>
       </div>
@@ -120,7 +126,7 @@
     >
       <div class="border-t pt-6 mt-6">
         ShopLess • Built with Tailwind <br />Created by:<br />Raymund
-        Sismundo<br />Janet Alfanta Sismundo<br />Clifford Caballero <br>
+        Sismundo<br />Janet Alfanta Sismundo<br />Clifford Caballero <br />
         Ontiveros, Kenyon
       </div>
     </footer>

@@ -5,19 +5,29 @@ const checkoutBtn = document.getElementById("checkoutBtn");
 const shippingForm = document.getElementById("shippingForm");
 const errorMsg = document.getElementById("formError");
 
-// Get cart from localStorage
+// Modal references
+const confirmModal = document.getElementById("confirmModal");
+const confirmFullName = document.getElementById("confirmFullName");
+const confirmEmail = document.getElementById("confirmEmail");
+const confirmBarangay = document.getElementById("confirmBarangay");
+const confirmCity = document.getElementById("confirmCity");
+const confirmPhone = document.getElementById("confirmPhone");
+const confirmBtn = document.getElementById("confirmBtn");
+const cancelBtn = document.getElementById("cancelBtn");
+
+// Cart from localStorage
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 // Restrict Full Name to letters and spaces only
 const fullNameInput = document.getElementById("fullName");
 fullNameInput.addEventListener("input", () => {
-  fullNameInput.value = fullNameInput.value.replace(/[^a-zA-Z\s]/g, '');
+  fullNameInput.value = fullNameInput.value.replace(/[^a-zA-Z\s]/g, "");
 });
 
-// Restrict Phone to numbers only, max 11
+// Restrict Phone to numbers only, max 11 digits
 const phoneInput = document.getElementById("phone");
 phoneInput.addEventListener("input", () => {
-  phoneInput.value = phoneInput.value.replace(/\D/g, '').slice(0, 11);
+  phoneInput.value = phoneInput.value.replace(/\D/g, "").slice(0, 11);
 });
 
 // Render order summary
@@ -34,17 +44,20 @@ function renderOrderSummary() {
   let totalPrice = 0;
   let totalQty = 0;
 
-  cart.forEach(item => {
+  cart.forEach((item) => {
     const itemTotal = item.price * item.quantity;
     totalPrice += itemTotal;
     totalQty += item.quantity;
 
     const itemDiv = document.createElement("div");
-    itemDiv.className = "flex items-center justify-between gap-4 p-3 border border-gray-300 rounded-lg";
+    itemDiv.className =
+      "flex items-center justify-between gap-4 p-3 border border-gray-300 rounded-lg";
 
     itemDiv.innerHTML = `
       <div class="flex items-center gap-4">
-        <img src="../${item.image}" alt="${item.name}" class="w-16 h-16 object-contain rounded-lg" />
+        <img src="../${item.image}" alt="${
+      item.name
+    }" class="w-16 h-16 object-contain rounded-lg" />
         <div>
           <p class="font-medium">${item.name}</p>
           <p class="text-gray-500 text-sm">Qty: ${item.quantity}</p>
@@ -66,47 +79,87 @@ function validateEmail(email) {
   return re.test(email);
 }
 
-// Show input error
-function markError(input, message) {
+// Show input error with red border
+function showError(input, message) {
   input.classList.add("border-red-500", "focus:ring-red-500");
   errorMsg.textContent = message;
   errorMsg.classList.remove("hidden");
 }
 
-// Remove all errors
+// Clear previous errors
 function clearErrors() {
   errorMsg.classList.add("hidden");
   errorMsg.textContent = "";
-  shippingForm.querySelectorAll("input").forEach(input => {
+  shippingForm.querySelectorAll("input").forEach((input) => {
     input.classList.remove("border-red-500", "focus:ring-red-500");
   });
 }
 
-// Checkout button
-checkoutBtn.addEventListener("click", e => {
+// Checkout button click
+checkoutBtn.addEventListener("click", (e) => {
   e.preventDefault();
   clearErrors();
 
   const fullName = fullNameInput.value.trim();
-  const email = document.getElementById("email");
-  const address = document.getElementById("address");
-  const city = document.getElementById("city");
-  const postalCode = document.getElementById("postalCode");
-  const phone = phoneInput;
+  const emailInput = document.getElementById("email");
+  const barangayInput = document.getElementById("barangay");
+  const cityInput = document.getElementById("city");
+  const phone = phoneInput.value.trim();
 
-  // Validation checks
-  if (!fullName) return markError(fullNameInput, "Full Name is required.");
-  if (!/^[a-zA-Z\s]+$/.test(fullName)) return markError(fullNameInput, "Full Name can contain letters and spaces only.");
-  if (!email.value || !validateEmail(email.value)) return markError(email, "Valid Email is required.");
-  if (!address.value.trim()) return markError(address, "Address is required.");
-  if (!city.value.trim()) return markError(city, "City is required.");
-  if (!postalCode.value.trim() || !/^\d{4,10}$/.test(postalCode.value)) return markError(postalCode, "Valid Postal Code is required.");
-  if (!phone.value.trim() || !/^\d{11}$/.test(phone.value)) return markError(phone, "Phone number must be exactly 11 digits.");
-  if (!cart || cart.length === 0) return markError(checkoutBtn, "Your cart is empty.");
+  // Validation
+  if (!fullName) return showError(fullNameInput, "Full Name is required.");
+  if (!/^[a-zA-Z\s]+$/.test(fullName))
+    return showError(
+      fullNameInput,
+      "Full Name must contain letters and spaces only."
+    );
+  if (!emailInput.value.trim() || !validateEmail(emailInput.value.trim()))
+    return showError(emailInput, "Valid Email is required.");
+  if (!barangayInput.value.trim())
+    return showError(barangayInput, "Barangay is required.");
+  if (!cityInput.value.trim()) return showError(cityInput, "City is required.");
+  if (!phone) return showError(phoneInput, "Phone number is required.");
+  if (!/^09\d{9}$/.test(phone))
+    return showError(
+      phoneInput,
+      "Phone number must start with 09 and be exactly 11 digits."
+    );
+  if (!cart || cart.length === 0)
+    return showError(checkoutBtn, "Your cart is empty.");
 
-  // All good
+  // Fill modal with user info
+  confirmFullName.textContent = fullName;
+  confirmEmail.textContent = emailInput.value.trim();
+  confirmBarangay.textContent = barangayInput.value.trim();
+  confirmCity.textContent = cityInput.value.trim();
+  confirmPhone.textContent = phone;
+
+  // Show confirmation modal
+  confirmModal.classList.remove("hidden");
+
+  // Save shipping info (optional)
+  localStorage.setItem(
+    "shippingInfo",
+    JSON.stringify({
+      fullName,
+      email: emailInput.value.trim(),
+      barangay: barangayInput.value.trim(),
+      city: cityInput.value.trim(),
+      phone,
+    })
+  );
+});
+
+// Cancel button hides modal
+cancelBtn.addEventListener("click", () => {
+  confirmModal.classList.add("hidden");
+});
+
+// Confirm button proceeds to payment
+confirmBtn.addEventListener("click", () => {
+  confirmModal.classList.add("hidden");
   window.location.href = "payment.html";
 });
 
-// Render summary on load
+// Render order summary on load
 renderOrderSummary();
