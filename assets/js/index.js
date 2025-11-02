@@ -106,8 +106,15 @@ function renderProducts(filteredProducts) {
 
       const existingIndex = cart.findIndex((p) => p.name === product.name);
       if (existingIndex > -1) {
-        cart[existingIndex].quantity += 1;
+        // If item already exists in cart
+        if (cart[existingIndex].quantity >= 5) {
+          alert("Maximum quantity reached (5 per item)");
+          return;
+        } else {
+          cart[existingIndex].quantity += 1;
+        }
       } else {
+        // If item is new
         cart.push({ ...product, quantity: 1 });
       }
 
