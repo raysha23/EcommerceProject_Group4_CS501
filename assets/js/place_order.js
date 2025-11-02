@@ -40,7 +40,7 @@ function renderOrderSummary() {
     totalQty += item.quantity;
 
     const itemDiv = document.createElement("div");
-    itemDiv.className = "flex items-center justify-between gap-4 p-3 border border-gray-500 rounded-lg";
+    itemDiv.className = "flex items-center justify-between gap-4 p-3 border border-gray-300 rounded-lg";
 
     itemDiv.innerHTML = `
       <div class="flex items-center gap-4">
@@ -66,36 +66,45 @@ function validateEmail(email) {
   return re.test(email);
 }
 
-// Show error
-function showError(message) {
-  alert(message);
+// Show input error
+function markError(input, message) {
+  input.classList.add("border-red-500", "focus:ring-red-500");
+  errorMsg.textContent = message;
+  errorMsg.classList.remove("hidden");
+}
+
+// Remove all errors
+function clearErrors() {
+  errorMsg.classList.add("hidden");
+  errorMsg.textContent = "";
+  shippingForm.querySelectorAll("input").forEach(input => {
+    input.classList.remove("border-red-500", "focus:ring-red-500");
+  });
 }
 
 // Checkout button
 checkoutBtn.addEventListener("click", e => {
   e.preventDefault();
-  errorMsg.classList.add("hidden");
+  clearErrors();
 
   const fullName = fullNameInput.value.trim();
-  const email = document.getElementById("email").value.trim();
-  const address = document.getElementById("address").value.trim();
-  const city = document.getElementById("city").value.trim();
-  const postalCode = document.getElementById("postalCode").value.trim();
-  const phone = phoneInput.value.trim();
+  const email = document.getElementById("email");
+  const address = document.getElementById("address");
+  const city = document.getElementById("city");
+  const postalCode = document.getElementById("postalCode");
+  const phone = phoneInput;
 
-  // Validations
-  if (!fullName) return showError("Full Name is required.");
-  if (!/^[a-zA-Z\s]+$/.test(fullName)) return showError("Full Name can contain letters and spaces only.");
-  if (!email || !validateEmail(email)) return showError("Valid Email is required.");
-  if (!address) return showError("Address is required.");
-  if (!city) return showError("City is required.");
-  if (!postalCode || !/^\d{4,10}$/.test(postalCode)) return showError("Valid Postal Code is required.");
-  if (!phone || !/^\d{11}$/.test(phone)) return showError("Phone number must be exactly 11 digits.");
-
-  if (!cart || cart.length === 0) return showError("Your cart is empty.");
+  // Validation checks
+  if (!fullName) return markError(fullNameInput, "Full Name is required.");
+  if (!/^[a-zA-Z\s]+$/.test(fullName)) return markError(fullNameInput, "Full Name can contain letters and spaces only.");
+  if (!email.value || !validateEmail(email.value)) return markError(email, "Valid Email is required.");
+  if (!address.value.trim()) return markError(address, "Address is required.");
+  if (!city.value.trim()) return markError(city, "City is required.");
+  if (!postalCode.value.trim() || !/^\d{4,10}$/.test(postalCode.value)) return markError(postalCode, "Valid Postal Code is required.");
+  if (!phone.value.trim() || !/^\d{11}$/.test(phone.value)) return markError(phone, "Phone number must be exactly 11 digits.");
+  if (!cart || cart.length === 0) return markError(checkoutBtn, "Your cart is empty.");
 
   // All good
-  alert("All details are filled! Proceeding to payment...");
   window.location.href = "payment.html";
 });
 
