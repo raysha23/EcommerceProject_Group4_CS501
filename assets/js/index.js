@@ -38,7 +38,7 @@ function goToProductPage(product) {
     image: `../${product.image}`,
     description: product.description,
   });
-  window.location.href = `../views/product.html?${params.toString()}`;
+  window.location.href = `views/product.html?${params.toString()}`;
 }
 
 // Render products
