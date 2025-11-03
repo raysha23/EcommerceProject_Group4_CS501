@@ -41,7 +41,7 @@ const product = {
 };
 
 // Populate the page
-productImage.src = product.image;
+productImage.src = `../${product.image}`;
 productName.textContent = product.name;
 productPrice.textContent = `$${product.price.toFixed(2)}`;
 productDescription.textContent = product.description;

@@ -35,7 +35,7 @@ function goToProductPage(product) {
   const params = new URLSearchParams({
     name: product.name,
     price: product.price,
-    image: `../${product.image}`,
+    image: product.image,
     description: product.description,
   });
   window.location.href = `views/product.html?${params.toString()}`;
