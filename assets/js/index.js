@@ -1,17 +1,26 @@
 import { dresses, shoes } from "../data/productsData.js";
 
+/* -----------------------------
+   ELEMENT REFERENCES
+----------------------------- */
 const productsContainer = document.getElementById("productsContainer");
 const cartCount = document.getElementById("cartCount");
-const searchInput = document.querySelector(
-  'input[aria-label="Search products"]'
-);
+const searchInput = document.getElementById("search-input");
+const categoryBtn = document.getElementById("category-button");
+const dropdown = document.getElementById("dropdown-categories");
+const arrow = document.getElementById("arrow-down");
 
-// Get cart from localStorage or empty array
+/* -----------------------------
+   INITIAL STATE
+----------------------------- */
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let currentCategory = "all";
 let currentSearch = "";
+const allProducts = [...dresses, ...shoes];
 
-// Update cart count display
+/* -----------------------------
+   CART FUNCTIONS
+----------------------------- */
 function updateCartCount() {
   if (cart.length > 0) {
     cartCount.classList.remove("hidden");
@@ -20,17 +29,14 @@ function updateCartCount() {
     cartCount.classList.add("hidden");
   }
 }
-updateCartCount();
-
-// Merge all products
-const allProducts = [...dresses, ...shoes];
-
-// Save cart
 function saveCart() {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
+updateCartCount();
 
-// Navigate to product page
+/* -----------------------------
+   NAVIGATION
+----------------------------- */
 function goToProductPage(product) {
   const params = new URLSearchParams({
     name: product.name,
@@ -41,7 +47,9 @@ function goToProductPage(product) {
   window.location.href = `views/product.html?${params.toString()}`;
 }
 
-// Render products
+/* -----------------------------
+   RENDER PRODUCTS
+----------------------------- */
 function renderProducts(filteredProducts) {
   productsContainer.innerHTML = "";
 
@@ -68,6 +76,7 @@ function renderProducts(filteredProducts) {
     }" class="object-contain h-full w-full pointer-events-none" />
         </div>
       </div>
+
       <div class="mt-4 flex-1 flex flex-col">
         <p class="text-lg font-semibold leading-tight lg:line-clamp-1 line-clamp-2">${
           product.name
@@ -75,6 +84,7 @@ function renderProducts(filteredProducts) {
         <p class="text-lg font-extrabold text-brand mt-1">$${product.price.toFixed(
           2
         )}</p>
+
         <button
           class="addToCartSlide mt-4 text-white px-6 py-2 rounded-full cursor-pointer font-medium 
           bg-brand transition-all duration-300 relative overflow-hidden
@@ -89,54 +99,52 @@ function renderProducts(filteredProducts) {
 
     productsContainer.appendChild(article);
 
-    // --- Click entire card to go to product page ---
+    /* --- Product Card Click (go to details) --- */
     article.addEventListener("click", (e) => {
-      // Prevent navigation if the Add to Cart button was clicked
-      if (e.target.closest(".addToCartSlide")) return;
+      if (e.target.closest(".addToCartSlide")) return; // ignore button clicks
       goToProductPage(product);
     });
 
-    // --- Add to cart functionality ---
+    /* --- Add to Cart Button --- */
     const btn = article.querySelector(".addToCartSlide");
     const text = btn.querySelector(".addText");
     const check = btn.querySelector(".checkIcon");
 
     btn.addEventListener("click", (e) => {
-      e.stopPropagation(); // Prevent triggering article click
+      e.stopPropagation(); // avoid card click
 
       const existingIndex = cart.findIndex((p) => p.name === product.name);
       if (existingIndex > -1) {
-        // If item already exists in cart
         if (cart[existingIndex].quantity >= 5) {
           alert("Maximum quantity reached (5 per item)");
           return;
-        } else {
-          cart[existingIndex].quantity += 1;
         }
+        cart[existingIndex].quantity += 1;
       } else {
-        // If item is new
         cart.push({ ...product, quantity: 1 });
       }
 
       saveCart();
       updateCartCount();
 
-      // Animation for button feedback
+      // Feedback Animation
       text.classList.add("opacity-0", "-translate-y-2");
       check.classList.remove("opacity-0", "translate-y-2");
-      btn.style.backgroundColor = "#22c55e"; // Tailwind green-500
+      btn.style.backgroundColor = "#22c55e"; // green-500
       btn.style.transition = "background-color 0.3s ease";
 
       setTimeout(() => {
         text.classList.remove("opacity-0", "-translate-y-2");
         check.classList.add("opacity-0", "translate-y-2");
-        btn.style.backgroundColor = ""; // reset
+        btn.style.backgroundColor = "";
       }, 1200);
     });
   });
 }
 
-// Filters
+/* -----------------------------
+   FILTERING SYSTEM
+----------------------------- */
 function applyFilters() {
   let filtered = allProducts;
 
@@ -151,8 +159,11 @@ function applyFilters() {
 
   renderProducts(filtered);
 }
+applyFilters();
 
-// Category buttons
+/* -----------------------------
+   CATEGORY DROPDOWN
+----------------------------- */
 document.querySelectorAll("button[data-category]").forEach((btn) => {
   btn.addEventListener("click", () => {
     currentCategory = btn.dataset.category;
@@ -160,11 +171,102 @@ document.querySelectorAll("button[data-category]").forEach((btn) => {
   });
 });
 
-// Search input
+categoryBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+
+  const isOpen = dropdown.classList.contains("opacity-100");
+
+  if (isOpen) {
+    dropdown.classList.remove(
+      "opacity-100",
+      "translate-y-0",
+      "pointer-events-auto"
+    );
+    dropdown.classList.add("opacity-0", "translate-y-2", "pointer-events-none");
+    arrow.classList.remove("rotate-180");
+  } else {
+    dropdown.classList.remove(
+      "opacity-0",
+      "translate-y-2",
+      "pointer-events-none"
+    );
+    dropdown.classList.add(
+      "opacity-100",
+      "translate-y-0",
+      "pointer-events-auto"
+    );
+    arrow.classList.add("rotate-180");
+  }
+});
+
+// Close dropdown when clicking outside
+document.addEventListener("click", (e) => {
+  if (!categoryBtn.contains(e.target) && !dropdown.contains(e.target)) {
+    dropdown.classList.remove(
+      "opacity-100",
+      "translate-y-0",
+      "pointer-events-auto"
+    );
+    dropdown.classList.add("opacity-0", "translate-y-2", "pointer-events-none");
+    arrow.classList.remove("rotate-180");
+  }
+});
+
+
+/* -----------------------------
+   SEARCH INPUT (FILTER + MOBILE EXPAND + SUPER SMOOTH EASING)
+----------------------------- */
+
+// Filtering
 searchInput.addEventListener("input", (e) => {
   currentSearch = e.target.value;
   applyFilters();
 });
 
-// Initial render
-applyFilters();
+searchInput.addEventListener("focus", () => {
+  if (window.innerWidth < 768) {
+    const nav = document.querySelector("nav");
+    if (nav) {
+      // Add smooth fade-out with gentle delay
+      nav.style.transition = "opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1)"; // smoother than ease-in-out
+      nav.style.opacity = "0";
+      nav.style.pointerEvents = "none";
+
+      // Wait a bit before hiding (prevents abrupt disappearance)
+      setTimeout(() => {
+        nav.classList.add("hidden");
+      }, 500);
+    }
+
+    // Expand search bar smoothly with same gentle easing
+    searchInput.style.transition =
+      "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)";
+    searchInput.classList.add("w-[90vw]");
+
+    // Optional subtle grow effect (pop feel)
+    searchInput.style.transform = "scale(1.03)";
+    setTimeout(() => {
+      searchInput.style.transform = "scale(1)";
+    }, 300);
+  }
+});
+
+searchInput.addEventListener("blur", () => {
+  if (window.innerWidth < 768) {
+    const nav = document.querySelector("nav");
+    if (nav) {
+      // Unhide nav first, then fade back in gently
+      nav.classList.remove("hidden");
+      setTimeout(() => {
+        nav.style.transition = "opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1)";
+        nav.style.opacity = "1";
+        nav.style.pointerEvents = "auto";
+      }, 50);
+    }
+
+    // Shrink back search bar with smooth easing
+    searchInput.style.transition =
+      "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)";
+    searchInput.classList.remove("w-[90vw]");
+  }
+});
